@@ -12,17 +12,17 @@ db_conn = connect(
     password='sreality_password'
 )
 
-file = open('scraper/scraper/spiders/pretty_flats.json', 'r')
-items = json.load(file)
-
-with db_conn:
-    with db_conn.cursor() as cur:
-        cur.execute('DROP TABLE IF EXISTS ads;')
-        cur.execute('CREATE TABLE ads (id SERIAL PRIMARY KEY, title VARCHAR(255), image_url TEXT);')
-
-        for item in items:
-            cur.execute('INSERT INTO ads (title, image_url) VALUES (%s, %s);',
-                        (item['title'], item['image_url']))
+# file = open('scraper/scraper/spiders/pretty_flats.json', 'r')
+# items = json.load(file)
+#
+# with db_conn:
+#     with db_conn.cursor() as cur:
+#         cur.execute('DROP TABLE IF EXISTS ads;')
+#         cur.execute('CREATE TABLE ads (id SERIAL PRIMARY KEY, title VARCHAR(255), image_url TEXT);')
+#
+#         for item in items:
+#             cur.execute('INSERT INTO ads (title, image_url) VALUES (%s, %s);',
+#                         (item['title'], item['image_url']))
 
 @app.route('/')
 def index():

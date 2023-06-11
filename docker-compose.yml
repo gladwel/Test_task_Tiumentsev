@@ -4,6 +4,8 @@ services:
   db:
     build:
       context: ./database
+    ports:
+      - "8005:5432"
     image: postgres
     environment:
       POSTGRES_USER: sreality_user
@@ -11,11 +13,13 @@ services:
       POSTGRES_DB: sreality
     volumes:
       - ./data:/var/lib/postgresql/data
+
   scraper:
     build:
       context: ./scraper
     depends_on:
       - db
+
   server:
     build:
       context: .
