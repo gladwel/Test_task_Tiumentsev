@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  db:
+    build:
+      context: ./database
+    image: postgres
+    environment:
+      POSTGRES_USER: sreality_user
+      POSTGRES_PASSWORD: sreality_password
+      POSTGRES_DB: sreality
+    volumes:
+      - ./data:/var/lib/postgresql/data
+  scraper:
+    build:
+      context: ./scraper
+    depends_on:
+      - db
+  server:
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
