@@ -13,7 +13,6 @@ class QuotesSpider(scrapy.Spider):
     def parse(self, response):
         response = json.loads(response.body)
         for item in response["_embedded"]["estates"]:
-            # self.log('Title: ', item["name"])
             yield {
                 'title': item["name"],
                 'image_url': item["_links"]["images"][0]["href"]
