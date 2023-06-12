@@ -5,7 +5,6 @@
 
 
 # useful for handling different item types with a single interface
-from itemadapter import ItemAdapter
 from psycopg2 import connect
 
 class ScraperPipeline:
@@ -13,13 +12,13 @@ class ScraperPipeline:
     def __init__(self):
         self.connection = connect(
             host='127.0.0.1',
-            port=5432,
+            port=8005,
             dbname='sreality',
             user='sreality_user',
             password='sreality_password'
         )
         self.cur = self.connection.cursor()
-        # Create quotes table if none exists
+        # Create table if none exists
         self.cur.execute('DROP TABLE IF EXISTS ads;')
         self.cur.execute('CREATE TABLE ads (id SERIAL PRIMARY KEY, title TEXT, image_url TEXT);')
         print('TABLE was created.')
@@ -56,3 +55,5 @@ class ScraperPipeline:
         # Close cursor and connection to database
         self.cur.close()
         self.connection.close()
+
+scraper_pipeline = ScraperPipeline()

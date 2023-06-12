@@ -12,7 +12,7 @@ db_conn = connect(
     password='sreality_password'
 )
 
-# file = open('scraper/scraper/spiders/pretty_flats.json', 'r')
+# file = open('../scraper/pretty_flats.json', 'r')
 # items = json.load(file)
 #
 # with db_conn:
