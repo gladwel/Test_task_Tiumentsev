@@ -5,7 +5,7 @@ import json
 app = Flask(__name__)
 
 db_conn = connect(
-    host='localhost',
+    host='db',
     port=5432,
     dbname='sreality',
     user='sreality_user',
