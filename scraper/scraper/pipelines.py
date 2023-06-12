@@ -20,14 +20,14 @@ class ScraperPipeline:
         )
         self.cur = self.connection.cursor()
         # Create table if none exists
-        self.cur.execute('DROP TABLE IF EXISTS ads;')
-        self.cur.execute('CREATE TABLE ads (id SERIAL PRIMARY KEY, title TEXT, image_url TEXT);')
+        self.cur.execute('DROP TABLE IF EXISTS ads')
+        self.cur.execute('CREATE TABLE ads (id SERIAL PRIMARY KEY, title TEXT, image_url TEXT)')
         print('TABLE was created.')
         self.cur.execute('DELETE FROM ads *')
 
 
     def process_item(self, item, spider):
-        self.cur.execute('''INSERT INTO ads (title, image_url) values (%s,%s)''', (item["title"], str(unicodedata.normalize('NFKD',item["image_url"]))))
+        self.cur.execute('''INSERT INTO ads (title, image_url) values (%s,%s)''', (item["title"].replace('\xa0', ' '), item["image_url"]))
         self.connection.commit()
         print('ITEM was processed.')
         return item

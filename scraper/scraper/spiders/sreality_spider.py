@@ -1,6 +1,7 @@
 from pathlib import Path
 import json
 import scrapy
+import unicodedata
 
 
 class QuotesSpider(scrapy.Spider):
@@ -14,6 +15,7 @@ class QuotesSpider(scrapy.Spider):
         response = json.loads(response.body)
         for item in response["_embedded"]["estates"]:
             yield {
-                'title': item["name"],
+                # unicodedata.normalize('NFC', item["name"]) is better but works unstable
+                'title': item["name"].replace('\xa0', ' '),
                 'image_url': item["_links"]["images"][0]["href"]
             }
