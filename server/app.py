@@ -1,6 +1,5 @@
 from flask import Flask, render_template_string
 from psycopg2 import connect
-import json
 
 app = Flask(__name__)
 
@@ -18,8 +17,8 @@ def index():
         with db_conn.cursor() as cur:
             cur.execute("SELECT title, image_url FROM ads")
             ads = cur.fetchall()
-            #delete all non-ascii characters in title
-            ads = [(title.encode('ascii', 'ignore').decode('ascii'), image_url) for title, image_url in ads]
+            # convert to czech characters
+            ads = [(title.encode('latin1').decode('utf8'), image_url) for title, image_url in ads]
 
     return render_template_string('''
         <!DOCTYPE html>

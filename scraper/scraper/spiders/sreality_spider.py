@@ -1,7 +1,6 @@
-from pathlib import Path
 import json
 import scrapy
-import unicodedata
+# from pathlib import Path - used for saving request to flats.json
 
 
 class QuotesSpider(scrapy.Spider):
@@ -15,7 +14,6 @@ class QuotesSpider(scrapy.Spider):
         response = json.loads(response.body)
         for item in response["_embedded"]["estates"]:
             yield {
-                # unicodedata.normalize('NFC', item["name"]) is better but works unstable
-                'title': item["name"].replace('\xa0', ' '),
+                'title': item["name"].encode('latin1').decode('utf8'),
                 'image_url': item["_links"]["images"][0]["href"]
             }

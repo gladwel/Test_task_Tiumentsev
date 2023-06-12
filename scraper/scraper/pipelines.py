@@ -6,7 +6,6 @@
 
 # useful for handling different item types with a single interface
 from psycopg2 import connect
-import unicodedata
 
 class ScraperPipeline:
 
@@ -27,12 +26,11 @@ class ScraperPipeline:
 
 
     def process_item(self, item, spider):
-        self.cur.execute('''INSERT INTO ads (title, image_url) values (%s,%s)''', (item["title"].replace('\xa0', ' '), item["image_url"]))
+        self.cur.execute('''INSERT INTO ads (title, image_url) values (%s,%s)''', (item["title"].encode('latin1').decode('utf8'), item["image_url"]))
         self.connection.commit()
         print('ITEM was processed.')
         return item
 
     def close_spider(self, spider):
-        # Close cursor and connection to database
         self.cur.close()
         self.connection.close()
